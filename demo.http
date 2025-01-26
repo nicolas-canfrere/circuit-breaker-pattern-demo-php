@@ -1,0 +1,20 @@
+GET http://127.0.0.1:9080/service1/index
+Accept: application/json
+
+###
+POST http://127.0.0.1:9080/service2/change-state
+Content-Type: application/json
+
+{
+    "new_state": "running"
+}
+
+###
+POST http://127.0.0.1:9080/service2/change-state
+Content-Type: application/json
+
+{
+  "new_state": "on_error"
+}
+
+###

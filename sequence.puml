@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User as User
+participant Service1 as s1
+participant Service2 as s2
+collections Logger as log
+
+
+User -> s1: Request
+s1 -> s2: Request
+s2 --> s1: Response 200
+s1 --> User: Response 200
+
+newpage
+
+group n requests failed during T time
+    User -> s1: Request
+    s1 -> s2: Request
+    s2 -> s1: Response failed (500:505)
+    s1 -> User: Response failed (500:505)
+end
+
+group circuit open for T time
+    User -> s1: Request
+    s1 -> s1: Service1 is now in open state
+    s1 -[#red]-> log: log error
+    s1 -> User: Response failed / fallback...
+end
+
+group after some rules Service1 go to half-open
+    alt if Service2 is unavailable
+        User -> s1: Request
+        s1 -> s2: Request
+        s2 -> s1: Response failed, Service1 go to open state
+        s1 -> User: Response failed (500:505)
+    else
+        User -> s1: Request
+        s1 -> s2: Request
+        s2 -> s1: Response succed, Service1 go to close state
+        s1 -[#green]-> log: log success
+        s1 -> User: Response 200
+    end
+end
+
+
+
+@enduml
