@@ -14,11 +14,28 @@ The Circuit Breaker pattern is designed to improve the resilience of microservic
 - Docker
 - Docker Compose
 
-## How to run
+## Installation
 
 ```bash
-docker-compose up
+make install
+````
+
+## How to run
+
+### Start the services
+```bash
+make start
 ```
+### Stop the services
+```bash
+make stop
+```
+
+### Remove the services
+```bash
+make remove
+```
+
 ## Usage
 
 You can use any http client like Postman, Bruno, PhpStorm client (see demo.http) ...
